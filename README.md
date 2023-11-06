@@ -6,5 +6,5 @@ alunos, incluindo informações como nome, idade, Registro Acadêmico (RA), méd
 disso, o sistema oferece funcionalidades para gerar relatórios personalizados com base nos dados 
 cadastrados.
 
-![Logo da Minha Aplicação](Cadastro-Notas-Alunos
+![Logo da Minha Aplicação](
 /Cadastro_alunos.jpeg)
