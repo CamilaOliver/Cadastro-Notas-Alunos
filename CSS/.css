@@ -1,0 +1,165 @@
+/* Estilos gerais */
+
+* {
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+}
+
+body {
+   background: rgb(228, 228, 228);
+   background-repeat: no-repeat;
+   padding: 0;
+}
+
+/* Estilos para o cabeçalho */
+
+header {
+   background: #e4e4e4;
+   text-align: center;
+   padding: 10px 0;
+}
+#faculdade-fatec h1 {
+   color: #fff;
+   background: #666666;
+   font-size: 20px;
+   width: auto;
+   padding: 11px 17px;
+   font-weight: bold; 
+   position: absolute;
+   top: -0.8%;
+   left: 49.5%;
+   transform: translateX(-50%);
+   font-family: Verdana, Tahoma, sans-serif;
+   text-transform: uppercase;
+   text-align: center;
+   display: inline-block;
+   border-bottom-left-radius: 20px;
+   border-bottom-right-radius: 20px;
+   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.45);
+}
+#titulo-cadastro {
+   margin-top: 1.6%;
+   top: calc(-123% + 20px); 
+   font-size: 15px;
+   text-align: center;
+   color: rgb(255, 255, 255);
+   font-family: 'DIN-Regular';
+   background: #b00100;
+}
+
+
+* {
+   box-sizing: content-box;
+}
+
+#Fatec-jpg {
+   max-width: 100%;
+   width: 19.5%;
+   height: auto;
+   vertical-align: middle;
+   border: 0;
+   margin-top: 9px;
+   margin-left: 2px;
+   position: relative;
+}
+
+#cpl-jpg {
+   max-width: 100%;
+   width: 35.5%;
+   height: auto;
+   vertical-align: middle;
+   border: 0;
+   margin-top: 38px;
+   margin-left: 651px;
+   position: relative;
+}
+
+#cpl-jpg:hover {
+   opacity: 0.7;
+}
+
+/* Estilos para a seção de conteúdo */
+
+section {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   padding: 20px;
+}
+#botoes {
+   display: flex;
+   justify-content: space-around;
+   margin-top: 30px;        
+}
+button {
+   padding: 5px;
+   border-radius:8px;
+   color: #ffffff;
+   background: #666666;
+   
+}
+
+button:hover {
+   opacity: 0.7;
+}
+
+.container {
+   width: 100%;
+   max-width: 800px;
+   margin-bottom: 20px;
+}
+
+.input-container,
+.report-container {
+   background-color: cornsilk;
+   border-radius: 10px;
+   padding: 15px 20px;
+   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos para os campos de entrada */
+
+.input-container label {
+   display: block;
+   margin-bottom: 5px;
+   color: darkred;
+}
+
+.input-container input,
+.input-container select {
+   width: 100%;
+   padding: 8px;
+   margin-bottom: 10px;
+   border: 1px solid salmon;
+   border-radius: 4px;
+}
+
+.input-container button {
+   padding: 5px;
+   border-radius: 8px;
+   color: #fff;
+   background: #666666;
+}
+
+/* Estilos para os relatórios */
+
+.report-container {
+   max-height: 300px; 
+   overflow-y: auto; 
+}
+
+.report-container h2 {
+   font-size: 18px;
+   margin-bottom: 10px;
+   color: darkred;
+}
+
+.report-container button {
+   padding: 5px;
+   border-radius: 8px;
+   color: #fff;
+   background: #666666;
+   margin-right: 10px;
+}
+

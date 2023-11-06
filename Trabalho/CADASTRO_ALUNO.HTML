@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <title>Cadastro de Alunos</title>
+   <link rel="stylesheet" href="CSS/.CSS"> 
+</head>
+<body>
+   <header>
+      <!-- Imagem logo da Fatec-->
+      <div id="faculdade-fatec">
+         <h1>Faculdade de tecnologia</h1>
+      </div>
+      
+      <!-- Imagem logo da imagem do Centro Paulo de Souza -->
+      <img id="Fatec-jpg" src="logo-fatec-franca-15-anos (1).png" alt="Fatec">
+      
+      <a href="https://www.cps.sp.gov.br/" target="_blank">
+         <img id="cpl-jpg" src="cpl.png" alt="CLP">
+      </a>
+      <br>
+   </header>
+   
+   <div id="titulo-cadastro">
+      <h2>Cadastro de Alunos</h2>
+   </div>
+   <!-- Campos para o cadastro -->
+   <section>
+
+      <div id="cadastro">
+         <div>
+            <label>Nome</label>
+            <input id="nome" size="40">
+         </div>
+
+         <div>
+            <label>Idade</label>
+            <input id="idade" type="number" min="0">
+         </div>
+
+         <div>
+            <label>Sexo</label>
+            <label><input name="sexo" type="radio" value="F"> Feminino</label>
+            <label><input name="sexo" type="radio" value="M"> Masculino</label>
+         </div>
+
+         <div>
+            <label>RA</label>
+            <input id="RA" type="text" maxlength="13">
+         </div>
+
+         <div>
+            <label>Média</label>
+            <input id="media" type="number">
+         </div>
+
+         <div id="botoes">
+            <button id="salvar">Salvar</button>
+         </div>
+      </div>
+
+      <!-- Campos da quantidade de aprovados -->
+      <div id="sumario">
+         <div>Aprovados: <span id="qtdeAprovados">0</span></div>
+      </div>
+
+      <!-- Relatórios -->
+      <div id="relatorio">
+         <h2>Relatórios</h2>
+         <button id="relatorioNome">Relatório por Nome</button>
+         <button id="relatorioRA">Relatório por RA</button>
+         <button id="relatorioAprovadosNome">Relatório de Aprovados por Nome</button>
+         <div id="resultadoRelatorio"></div>
+      </div>
+      <br>
+      <div>
+         <button id="encerrar" class="botao-encerrar">Encerrar</button>
+      </div>
+
+   </section>
+
+   <script>
+      /*Cada uma delas corresponde a um elemento HTML da página, identificado por seu ID. 
+      Essas constantes são usadas posteriormente no código para acessar e manipular os elementos da página.*/
+      'use strict';
+
+      const nome = document.querySelector('#nome');
+      const idade = document.querySelector('#idade');
+      const RA = document.querySelector('#RA');
+      const media = document.querySelector('#media');
+      
+      const salvar = document.querySelector('#salvar');
+
+      const qtdeAprovados = document.querySelector('#qtdeAprovados');  // Quantidade de aprovados - exibidas embaixo do botão salvar
+
+      const relatorioNome = document.querySelector('#relatorioNome');  // Botão relatório por Nome
+      const relatorioRA = document.querySelector('#relatorioRA');  // Botão relatório por RA
+      const relatorioAprovadosNome = document.querySelector('#relatorioAprovadosNome');  // Botão Relatório Aprovados
+      const encerrar = document.querySelector('#encerrar'); // Botão Encerrar
+
+      /*unção é declarada para validar os dados de entrada fornecidos pelo usuário antes de prosseguir com alguma ação (como salvar ou encerrar).*/
+
+      function validarEntrada(valNome, valIdade, valRA, valMedia, valNacSexo) {
+         if (valNome.trim() === '') {
+            alert('O nome deve ser informado.');
+            return false;
+         }
+         if (valIdade.trim() === '') {
+            alert('A idade deve ser informada.');
+            return false;
+         }
+         if (valRA.trim() === '') {
+            alert('O RA deve ser informado.');
+            return false;
+         }
+         if (valNacSexo === '') {
+            alert('Selecione uma opção de sexo (Feminino ou Masculino).');
+            return false;
+         }
+         if (isNaN(valMedia) || valMedia < 0 || valMedia > 10) {
+            alert('A média deve estar entre 0 e 10.');
+            return false;
+         }
+         return true;
+      }
+
+      // Adicione esta função para validar a entrada do RA
+      function validarEntradaNumerica(event) {
+         const input = event.target;
+         const valor = input.value;
+         // Substitui tudo que não for número por uma string vazia
+         input.value = valor.replace(/\D/g, '');
+      }
+
+      // Adicione o evento de validação ao campo RA
+      const campoRA = document.querySelector('#RA');
+      campoRA.addEventListener('input', validarEntradaNumerica);
+
+      let alunos = [];
+
+      function salvarAluno() {
+         let valNome = nome.value;
+         let valIdade = idade.value;
+         let valRA = RA.value;
+         let valMedia = parseFloat(media.value);
+         let valNacSexo = '';
+
+         const sexoRadioButtons = document.querySelectorAll('input[name="sexo"]');
+         
+         sexoRadioButtons.forEach(radioButton => {
+            if (radioButton.checked) {
+               valNacSexo = radioButton.value;
+            }
+         });
+
+         if (validarEntrada(valNome, valIdade, valRA, valMedia, valNacSexo)) {
+            if (valRA.length < 13) {
+               alert('O RA deve ter pelo menos 13 números.');
+               return;
+            }
+            let aluno = {
+               nome: valNome,
+               idade: valIdade,
+               RA: valRA,
+               media: valMedia,
+               sexo: valNacSexo
+            };
+            alunos.push(aluno);
+
+            // Atualizando os dados na página
+            qtdeAprovados.textContent = alunos.length;
+
+            // Limpa os campos de entrada
+            nome.value = '';
+            idade.value = '';
+            RA.value = '';
+            media.value = '';
+            
+            // Desmarca os radio buttons de sexo
+            sexoRadioButtons.forEach(radioButton => {
+               radioButton.checked = false;
+            });
+         }
+      }
+
+      salvar.addEventListener('click', salvarAluno);
+
+      // Função para ordenar os alunos por nome em ordem crescente usando Bubble Sort
+      function ordenarPorNomeCrescente() {
+         let trocado;
+         do {
+            trocado = false;
+            for (let i = 0; i < alunos.length - 1; i++) {
+               if (alunos[i].nome.localeCompare(alunos[i + 1].nome) > 0) {
+                  const temp = alunos[i];
+                  alunos[i] = alunos[i + 1];
+                  alunos[i + 1] = temp;
+                  trocado = true;
+               }
+            }
+         } while (trocado);
+      }
+
+      // Função para ordenar os alunos por RA em ordem decrescente usando Bubble Sort
+      function ordenarPorRADecrescente() {
+         let trocado;
+         do {
+            trocado = false;
+            for (let i = 0; i < alunos.length - 1; i++) {
+               if (alunos[i].RA < alunos[i + 1].RA) {
+                  const temp = alunos[i];
+                  alunos[i] = alunos[i + 1];
+                  alunos[i + 1] = temp;
+                  trocado = true;
+               }
+            }
+         } while (trocado);
+      }
+
+      // Função para ordenar os alunos aprovados por nome em ordem crescente
+      function ordenarAprovadosPorNomeCrescente() {
+         const aprovados = alunos.filter(aluno => aluno.media >= 6);
+         aprovados.sort((a, b) => a.nome.localeCompare(b.nome));
+         return aprovados;
+      }
+
+      // Função para exibir relatório por Nome e RA
+      function exibirRelatorioNome() {
+         const resultadoRelatorio = document.querySelector('#resultadoRelatorio');
+         resultadoRelatorio.innerHTML = '<h3>Relatório por Nome :</h3>';
+         if (alunos.length > 0) {
+            resultadoRelatorio.innerHTML += '<ul>';
+            ordenarPorNomeCrescente();
+            alunos.forEach(aluno => {
+               const status = aluno.media >= 6 ? 'Aprovado' : 'Reprovado';
+               resultadoRelatorio.innerHTML += `<li>${aluno.nome} (RA: ${aluno.RA}) - Idade: ${aluno.idade}, Sexo: ${aluno.sexo}, Média: ${aluno.media} - Status: ${status}</li>`;
+            });
+            resultadoRelatorio.innerHTML += '</ul>';
+         } else {
+            resultadoRelatorio.innerHTML += '<p>Nenhum aluno cadastrado.</p>';
+         }
+      }
+
+      // Função para exibir relatório por RA
+      function exibirRelatorioRA() {
+         const resultadoRelatorio = document.querySelector('#resultadoRelatorio');
+         resultadoRelatorio.innerHTML = '<h3>Relatório por RA:</h3>';
+         if (alunos.length > 0) {
+            resultadoRelatorio.innerHTML += '<ul>';
+            ordenarPorRADecrescente();
+            alunos.forEach(aluno => {
+               const status = aluno.media >= 6 ? 'Aprovado' : 'Reprovado';
+               resultadoRelatorio.innerHTML += `<li>${aluno.nome} (RA: ${aluno.RA}) - Idade: ${aluno.idade}, Sexo: ${aluno.sexo}, Média: ${aluno.media} - Status: ${status}</li>`;
+            });
+            resultadoRelatorio.innerHTML += '</ul>';
+         } else {
+            resultadoRelatorio.innerHTML += '<p>Nenhum aluno cadastrado.</p>';
+         }
+      }
+
+      // Função para exibir relatório de aprovados por Nome
+      function exibirRelatorioAprovadosNome() {
+         const resultadoRelatorio = document.querySelector('#resultadoRelatorio');
+         resultadoRelatorio.innerHTML = '<h3>Relatório de Aprovados por Nome:</h3>';
+         const aprovadosPorNome = ordenarAprovadosPorNomeCrescente();
+         if (aprovadosPorNome.length > 0) {
+            resultadoRelatorio.innerHTML += '<ul>';
+            aprovadosPorNome.forEach(aluno => {
+               resultadoRelatorio.innerHTML += `<li>${aluno.nome} (RA: ${aluno.RA}) - Idade: ${aluno.idade}, Sexo: ${aluno.sexo}, Média: ${aluno.media}</li>`;
+            });
+            resultadoRelatorio.innerHTML += '</ul>';
+         } else {
+            resultadoRelatorio.innerHTML += '<p>Nenhum aluno aprovado.</p>';
+         }
+      }
+
+      // Adicione event listeners aos botões
+      relatorioNome.addEventListener('click', exibirRelatorioNome);
+      relatorioRA.addEventListener('click', exibirRelatorioRA);
+      relatorioAprovadosNome.addEventListener('click', exibirRelatorioAprovadosNome);
+      encerrar.addEventListener('click', limparTelaEEncerrar); // Event listener para o botão "Encerrar"
+
+      // Função para limpar a tela e encerrar o programa
+      function limparTelaEEncerrar() {
+         // Limpa a área de resultado do relatório
+         const resultadoRelatorio = document.querySelector('#resultadoRelatorio');
+         resultadoRelatorio.innerHTML = '';
+
+         // Limpa os campos de entrada e radio buttons
+         nome.value = '';
+         idade.value = '';
+         RA.value = '';
+         media.value = '';
+         const sexoRadioButtons = document.querySelectorAll('input[name="sexo"]');
+         sexoRadioButtons.forEach(radioButton => {
+            radioButton.checked = false;
+         });
+
+         // Reinicia a lista de alunos
+         alunos = [];
+
+         // Atualiza a quantidade de aprovados para zero
+         qtdeAprovados.textContent = 0;
+      }
+   </script>
+</body>
+</html>
